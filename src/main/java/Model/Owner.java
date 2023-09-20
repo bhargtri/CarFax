@@ -3,24 +3,24 @@ package Model;
 import java.util.Objects;
 
 public class Owner {
-    private int ssn;
+    private int licenseNum;
     private String name;
     private int birthYear;
     private String state;
 
-    public Owner(int ssn, String name, int birthYear, String state) {
-        this.ssn = ssn;
+    public Owner(int licenseNum, String name, int birthYear, String state) {
+        this.licenseNum = licenseNum;
         this.name = name;
         this.birthYear = birthYear;
         this.state = state;
     }
 
-    public int getSsn() {
-        return ssn;
+    public int getlicenseNum() {
+        return licenseNum;
     }
 
-    public void setSsn(int ssn) {
-        this.ssn = ssn;
+    public void setlicenseNum(int licenseNum) {
+        this.licenseNum = licenseNum;
     }
 
     public String getName() {
@@ -52,18 +52,18 @@ public class Owner {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Owner owner = (Owner) o;
-        return ssn == owner.ssn && birthYear == owner.birthYear && Objects.equals(name, owner.name) && Objects.equals(state, owner.state);
+        return licenseNum == owner.licenseNum && birthYear == owner.birthYear && Objects.equals(name, owner.name) && Objects.equals(state, owner.state);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ssn, name, birthYear, state);
+        return Objects.hash(licenseNum, name, birthYear, state);
     }
 
     @Override
     public String toString() {
         return "Owner{" +
-                "ssn=" + ssn +
+                "licenseNum=" + licenseNum +
                 ", name='" + name + '\'' +
                 ", Born in year=" + birthYear +
                 ", Resident of state='" + state + '\'' +
