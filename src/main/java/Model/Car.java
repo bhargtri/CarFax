@@ -1,7 +1,10 @@
 package Model;
 
+import lombok.Data;
+
 import java.util.Objects;
 
+@Data
 public class Car {
     public int vin;
     public String model;
@@ -16,53 +19,6 @@ public class Car {
         this.make = make;
         this.modelYear = modelYear;
         this.color = color;
-        this.cleanTitle = cleanTitle;
-    }
-    public int getVin() {
-        return vin;
-    }
-
-    public void setVin(int vin) {
-        this.vin = vin;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getMake() {
-        return make;
-    }
-
-    public void setMake(String make) {
-        this.make = make;
-    }
-
-    public int getModelYear() {
-        return modelYear;
-    }
-
-    public void setModelYear(int modelYear) {
-        this.modelYear = modelYear;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public boolean isCleanTitle() {
-        return cleanTitle;
-    }
-
-    public void setCleanTitle(boolean cleanTitle) {
         this.cleanTitle = cleanTitle;
     }
 

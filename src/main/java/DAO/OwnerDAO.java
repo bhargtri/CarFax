@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DriverDAO {
+public class OwnerDAO {
     Connection conn;
 
-    public DriverDAO(Connection conn){
+    public OwnerDAO(Connection conn){
         this.conn = conn;
     }
 
