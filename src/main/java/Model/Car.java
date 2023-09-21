@@ -3,12 +3,12 @@ package Model;
 import java.util.Objects;
 
 public class Car {
-    private int vin;
-    private String model;
-    private String make;
-    private int modelYear;
-    private String color;
-    private boolean cleanTitle;
+    public int vin;
+    public String model;
+    public String make;
+    public int modelYear;
+    public String color;
+    public boolean cleanTitle;
 
     public Car(int vin, String model, String make, int modelYear, String color, boolean cleanTitle) {
         this.vin = vin;
