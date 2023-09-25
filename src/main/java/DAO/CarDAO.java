@@ -14,6 +14,7 @@ public class CarDAO {
         this.conn = conn;
     }
 
+    
     public void insertCarRecord(Car car){
         try{
             PreparedStatement ps = conn.prepareStatement("INSERT INTO Car (vin, model, make, model_year, color, clean_title) VALUES (?,?,?,?,?,?)");

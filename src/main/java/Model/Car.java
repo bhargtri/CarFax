@@ -13,6 +13,10 @@ public class Car {
     private String color;
     private boolean cleanTitle;
 
+
+    public Car() {
+    }
+
     public Car(int vin, String model, String make, int modelYear, String color, boolean cleanTitle) {
         this.vin = vin;
         this.model = model;
