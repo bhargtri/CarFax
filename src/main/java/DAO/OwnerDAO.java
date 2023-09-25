@@ -45,7 +45,7 @@ public class OwnerDAO {
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return null;
+        return ownerList;
     }
 
     public List<Owner> getOwnersOlderThanAge(int age){
@@ -61,7 +61,7 @@ public class OwnerDAO {
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return null;
+        return ownerList;
     }
 
 }
