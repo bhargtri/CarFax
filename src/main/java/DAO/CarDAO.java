@@ -13,7 +13,7 @@ public class CarDAO {
 
     private Connection conn;
 
-    public CarDAO(Connection conn){
+    public CarDAO(){
         this.conn = conn;
     }
 
