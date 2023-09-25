@@ -6,16 +6,13 @@ import java.util.Objects;
 
 @Data
 public class Owner {
+
     private int licenseNum;
     private String name;
     private int birthYear;
     private String state;
 
-    public Owner(int licenseNum, String name, int birthYear, String state) {
-        this.licenseNum = licenseNum;
-        this.name = name;
-        this.birthYear = birthYear;
-        this.state = state;
+    public Owner(int ssn, String name, int birthYear, String state) {
     }
 
     @Override
@@ -36,8 +33,9 @@ public class Owner {
         return "Owner{" +
                 "licenseNum=" + licenseNum +
                 ", name='" + name + '\'' +
-                ", Born in year=" + birthYear +
-                ", Resident of state='" + state + '\'' +
-                '}' + "/n";
+                ", birthYear=" + birthYear +
+                ", state='" + state + '\'' + '}';
     }
+
 }
+

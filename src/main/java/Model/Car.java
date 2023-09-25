@@ -6,12 +6,12 @@ import java.util.Objects;
 
 @Data
 public class Car {
-    public int vin;
-    public String model;
-    public String make;
-    public int modelYear;
-    public String color;
-    public boolean cleanTitle;
+    private int vin;
+    private String model;
+    private String make;
+    private int modelYear;
+    private String color;
+    private boolean cleanTitle;
 
     public Car(int vin, String model, String make, int modelYear, String color, boolean cleanTitle) {
         this.vin = vin;
