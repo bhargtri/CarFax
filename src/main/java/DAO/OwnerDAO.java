@@ -1,5 +1,6 @@
 package DAO;
 
+import Model.Car;
 import Model.Owner;
 
 import java.sql.Connection;
@@ -10,67 +11,82 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OwnerDAO {
-    private final Connection conn;
+    Connection conn;
 
-    public OwnerDAO(Connection conn) {
+    public OwnerDAO(Connection conn){
         this.conn = conn;
     }
 
-    public void insertOwnerRecord(Owner owner) {
-        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO owner (licenseNumber, name, birth_year, state) VALUES (?,?,?,?)")) {
+    public void insertOwnerRecord(Owner owner){
+        try{
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Owner (license_num, name, birthYear, state) VALUES (?,?,?,?)");
             ps.setInt(1, owner.getLicenseNum());
             ps.setString(2, owner.getName());
             ps.setInt(3, owner.getBirthYear());
             ps.setString(4, owner.getState());
-            ps.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public int getLicenseNumByName(String name) {
-        try (PreparedStatement ps = conn.prepareStatement("SELECT licenseNumber FROM owner WHERE name = ?")) {
-            ps.setString(1, name);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt("licenseNumber");
-                }
+    public void deleteOwnerRecord(int licenseNum){
+        try{
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM Owner WHERE license_num = ?");
+            ps.setInt(1, licenseNum);
+            System.out.println("The entry was deleted: " + ps.execute());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Owner> queryAllOwners() {
+        List<Owner> ownerList = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Owner ORDER BY birth_year DESC");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Owner dbOwner = new Owner(rs.getInt("license_num"), rs.getString("name"), rs.getInt("birth_year"),
+                        rs.getString("state"));
+                ownerList.add(dbOwner);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return ownerList;
     }
 
-    public List<Owner> getOwnersByState(String ownerState) {
+    public List<Owner> getOwnersByState(String ownerState){
         List<Owner> ownerList = new ArrayList<>();
-        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM owner WHERE state = ?")) {
+        try{
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM owner WHERE state = ?");
             ps.setString(1, ownerState);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Owner dbOwner = new Owner(rs.getInt("licenseNumber"), rs.getString("name"), rs.getInt("birth_year"), rs.getString("state"));
-                    ownerList.add(dbOwner);
-                }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Owner dbOwner = new Owner(rs.getInt("licenseNumber"), rs.getString("name"), rs.getInt("birth_year"), rs.getString("state"));
+                ownerList.add(dbOwner);
             }
-        } catch (SQLException e) {
+        }catch(SQLException e){
             e.printStackTrace();
         }
         return ownerList;
     }
 
-    public List<Owner> getOwnersOlderThanAge(int age) {
+    public List<Owner> getOwnersOlderThanAge(int age){
         List<Owner> ownerList = new ArrayList<>();
-        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM owner WHERE YEAR(2023 - birth_year) > ?")) {
+        try{
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM owner WHERE YEAR(2023-birth_year) > ?");
             ps.setInt(1, age);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Owner dbOwner = new Owner(rs.getInt("licenseNumber"), rs.getString("name"), rs.getInt("birth_year"), rs.getString("state"));
-                    ownerList.add(dbOwner);
-                }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Owner dbOwner = new Owner(rs.getInt("licenseNumber"), rs.getString("name"), rs.getInt("birth_year"), rs.getString("state"));
+                ownerList.add(dbOwner);
             }
-        } catch (SQLException e) {
+        }catch(SQLException e){
             e.printStackTrace();
         }
         return ownerList;
     }
+
 }

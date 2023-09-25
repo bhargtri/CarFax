@@ -1,84 +1,81 @@
 package Service;
 
+import DAO.CarDAO;
 import Model.Car;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CarService {
+    CarDAO carDAO;
 
-    public CarService() {
+    public CarService(CarDAO carDAO){
+        this.carDAO = carDAO;
     }
 
-    // Method to search for cars based on criteria
-    public List<Car> searchCars(int vin, String model, String make, int modelYear, String color, boolean cleanTitle) {
-        List<Car> matchingCars = new ArrayList<>();
-        Connection conn = null;
-        try {
-            // Customize the SQL query based on the provided criteria
-            String sql = "SELECT * FROM Car WHERE 1=1"; // Start with a basic query
+    public Car saveCar(Car car){
+        int vin = 0;
+        do{
+            vin = (int) (Math.random() * Integer.MAX_VALUE);
+        } while(carDAO.queryCarByVin(vin) != null);
 
-            if (vin != 0) {
-                sql += " AND vin = ?";
-            }
-            if (model != null && !model.isEmpty()) {
-                sql += " AND model = ?";
-            }
-            if (make != null && !make.isEmpty()) {
-                sql += " AND make = ?";
-            }
-            if (modelYear != 0) {
-                sql += " AND model_year = ?";
-            }
-            if (color != null && !color.isEmpty()) {
-                sql += " AND color = ?";
-            }
-            if (cleanTitle) {
-                sql += " AND clean_title = true";
-            }
-            PreparedStatement ps = conn.prepareStatement(sql);
+        car.setVin(vin);
 
-            int parameterIndex = 1;
+        carDAO.insertCarRecord(car);
 
-            if (vin != 0) {
-                ps.setInt(parameterIndex++, vin);
-            }
-            if (model != null && !model.isEmpty()) {
-                ps.setString(parameterIndex++, model);
-            }
-            if (make != null && !make.isEmpty()) {
-                ps.setString(parameterIndex++, make);
-            }
-            if (modelYear != 0) {
-                ps.setInt(parameterIndex++, modelYear);
-            }
-            if (color != null && !color.isEmpty()) {
-                ps.setString(parameterIndex++, color);
-            }
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                // Create Car objects and add them to matchingCars list
-                Car car = new Car(rs.getInt("vin"), rs.getString("model"), rs.getString("make"), rs.getInt("model_year"), rs.getString("color"), rs.getBoolean("clean_title"));
-                matchingCars.add(car);
-            }
-
-            // Close the PreparedStatement and ResultSet
-            ps.close();
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return matchingCars;
+        return car;
     }
 
-    // Method to declare whether a car has a clean title or not
-    public boolean hasCleanTitle(Car car) {
-        return car.isCleanTitle();
+    public List<Car> getCarsByMake(String make){
+        return carDAO.queryCarByMake(make);
     }
+
+    public List<Car> getCarsByModel(String model){
+        return carDAO.queryCarByModel(model);
+    }
+
+    public List<Car> getCarsByColor(String color){
+        return carDAO.queryCarByColor(color);
+    }
+
+    public List<Car> getCarsByModelYear(int modelYear){
+        return carDAO.queryCarByModelYear(modelYear);
+    }
+
+    public List<Car> getCarsIfCleanTitle(){
+        return carDAO.queryCarIfCleanTitle();
+    }
+
+    public List<Car> getCarsByMakeAndModel(String make, String model){
+        return carDAO.queryCarByMakeAndModel(make, model);
+    }
+
+    public List<Car> getCarsByModelYearAndColor(int year, String color){
+        return carDAO.queryCarByModelYearAndColor(year, color);
+    }
+
+    public List<Car> getCarsBeforeYear(int year){
+        return carDAO.queryCarBeforeYear(year);
+    }
+
+    public List<Car> getAllCars(String make){
+        return carDAO.queryAllCars();
+    }
+
+    public Car getCarByVin(int vin){
+        return carDAO.queryCarByVin(vin);
+    }
+
+    public void updateTitleStatus(int vin, boolean status){
+        carDAO.updateTitleStatus(vin, status);
+    }
+
+    public void deleteCarRecord(int vin){
+        carDAO.deleteCarRecord(vin);
+    }
+
+    public List<Car> getCarsByLicenseNum(int license){
+        return carDAO.queryCarByLicenseNum(license);
+    }
+
+
 }
