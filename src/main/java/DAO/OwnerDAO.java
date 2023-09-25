@@ -17,19 +17,44 @@ public class OwnerDAO {
         this.conn = conn;
     }
 
-    public int getLicenseNumByName(String name){
+    public void insertOwnerRecord(Owner owner){
         try{
-            PreparedStatement ps = conn.prepareStatement("SELECT license_num FROM author WHERE name = ?");
-            ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                int id = rs.getInt("license_num");
-                return id;
-            }
-        }catch(SQLException e){
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Owner (license_num, name, birthYear, state) VALUES (?,?,?,?)");
+            ps.setInt(1, owner.getLicenseNum());
+            ps.setString(2, owner.getName());
+            ps.setInt(3, owner.getBirthYear());
+            ps.setString(4, owner.getState());
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+    }
+
+    public void deleteOwnerRecord(int licenseNum){
+        try{
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM Owner WHERE license_num = ?");
+            ps.setInt(1, licenseNum);
+            System.out.println("The entry was deleted: " + ps.execute());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Owner> queryAllOwners() {
+        List<Owner> ownerList = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Owner ORDER BY birth_year DESC");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Owner dbOwner = new Owner(rs.getInt("license_num"), rs.getString("name"), rs.getInt("birth_year"),
+                        rs.getString("state"));
+                ownerList.add(dbOwner);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ownerList;
     }
 
     public List<Owner> getOwnersByState(String ownerState){
