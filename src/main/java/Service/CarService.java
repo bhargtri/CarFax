@@ -12,7 +12,7 @@ public class CarService {
         this.carDAO = carDAO;
     }
 
-    public Car saveCar(Car car){
+    public Car insertCar(Car car){
         int vin = 0;
         do{
             vin = (int) (Math.random() * Integer.MAX_VALUE);
@@ -57,7 +57,7 @@ public class CarService {
         return carDAO.queryCarBeforeYear(year);
     }
 
-    public List<Car> getAllCars(String make){
+    public List<Car> getAllCars(){
         return carDAO.queryAllCars();
     }
 
