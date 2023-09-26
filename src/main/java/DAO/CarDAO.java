@@ -20,7 +20,7 @@ public class CarDAO {
     
     public void insertCarRecord(Car car){
         try{
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Car (vin, model, make, model_year, color, clean_title, license_num) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Car (vin, model, make, model_year, color, clean_title, license_num, price) VALUES (?,?,?,?,?,?,?,?)");
             ps.setInt(1, car.getVin());
             ps.setString(2, car.getModel());
             ps.setString(3, car.getMake());
@@ -28,6 +28,7 @@ public class CarDAO {
             ps.setString(5, car.getColor());
             ps.setBoolean(6, car.isCleanTitle());
             ps.setInt(7, car.getLicenseNum());
+            ps.setDouble(8, car.getPrice());
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,7 +49,8 @@ public class CarDAO {
                 String color = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum);
+                double price = rs.getInt("price");
+                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
         }catch(SQLException e){
@@ -71,7 +73,8 @@ public class CarDAO {
                 String color = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum);
+                double price = rs.getInt("price");
+                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
         }catch(SQLException e){
@@ -94,7 +97,8 @@ public class CarDAO {
                 String carColor = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, carColor, cleanTitle, licenseNum);
+                double price = rs.getInt("price");
+                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, carColor, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
         }catch(SQLException e){
@@ -117,7 +121,8 @@ public class CarDAO {
                 String color = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum);
+                double price = rs.getInt("price");
+                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
         }catch(SQLException e){
@@ -141,7 +146,8 @@ public class CarDAO {
                 String color = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum);
+                double price = rs.getInt("price");
+                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
         }catch(SQLException e){
@@ -165,7 +171,8 @@ public class CarDAO {
                 String color = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum);
+                double price = rs.getInt("price");
+                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
         }catch(SQLException e){
@@ -189,7 +196,8 @@ public class CarDAO {
                 String dbColor = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                Car dbCar = new Car(vin, dbMake, dbModel, dbModelYear, dbColor, cleanTitle, licenseNum);
+                double price = rs.getInt("price");
+                Car dbCar = new Car(vin, dbMake, dbModel, dbModelYear, dbColor, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
         }catch(SQLException e){
@@ -222,7 +230,7 @@ public class CarDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Car dbCar = new Car(rs.getInt("vin"), rs.getString("model"), rs.getString("make"), rs.getInt("model_year"),
-                        rs.getString("color"), rs.getBoolean("clean_title"), rs.getInt("license_num"));
+                        rs.getString("color"), rs.getBoolean("clean_title"), rs.getInt("license_num"), rs.getDouble("price"));
                 carList.add(dbCar);
             }
         } catch (SQLException e) {
@@ -238,7 +246,7 @@ public class CarDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Car dbCar = new Car(rs.getInt("vin"), rs.getString("model"), rs.getString("make"), rs.getInt("model_year"),
-                        rs.getString("color"), rs.getBoolean("clean_title"), rs.getInt("license_num"));
+                        rs.getString("color"), rs.getBoolean("clean_title"), rs.getInt("license_num"), rs.getDouble("price"));
                 carList.add(dbCar);
             }
         } catch (SQLException e) {
@@ -254,7 +262,7 @@ public class CarDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 dbCar = new Car(rs.getInt("vin"), rs.getString("model"), rs.getString("make"), rs.getInt("model_year"),
-                        rs.getString("color"), rs.getBoolean("clean_title"), rs.getInt("license_num"));
+                        rs.getString("color"), rs.getBoolean("clean_title"), rs.getInt("license_num"), rs.getDouble("price"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -287,7 +295,8 @@ public class CarDAO {
                 String color = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum);
+                double price = rs.getInt("price");
+                Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
         }catch(SQLException e){
