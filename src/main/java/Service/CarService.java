@@ -2,8 +2,10 @@ package Service;
 
 import DAO.CarDAO;
 import Model.Car;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 
 public class CarService {
     CarDAO carDAO;
@@ -12,7 +14,12 @@ public class CarService {
         this.carDAO = carDAO;
     }
 
-    public Car insertCar(Car car){
+    /**
+     * Insert a new entry of type 'Car' into the table 'Car'
+     * @param car
+     * @return car
+     */
+    public Car insertCar(@NotNull Car car){
         int vin = 0;
         do{
             vin = (int) (Math.random() * Integer.MAX_VALUE);
@@ -75,6 +82,21 @@ public class CarService {
 
     public List<Car> getCarsByLicenseNum(int license){
         return carDAO.queryCarByLicenseNum(license);
+    }
+
+    public List<Car> getCarsOfMostCommonMake() {
+        Map<String, Integer> makeCountMap = carDAO.queryOfMakeCount();
+        String currentMaxSoldMake = "na";
+        int currentMaxCount = 0;
+        for(Map.Entry<String, Integer> element : makeCountMap.entrySet()){
+            if(element.getValue() > currentMaxCount){
+                currentMaxSoldMake = element.getKey();
+                currentMaxCount = element.getValue();
+            }
+        }
+//        List<Car> carsOfMostCommonMake = carDAO.queryCarByMake(currentMaxSoldMake);
+//        return carsOfMostCommonMake;
+        return carDAO.queryCarByMake(currentMaxSoldMake);
     }
 
 

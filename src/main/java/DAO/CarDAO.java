@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CarDAO {
 
@@ -303,6 +305,20 @@ public class CarDAO {
             e.printStackTrace();
         }
         return carList;
+    }
+
+    public Map<String, Integer> queryOfMakeCount(){
+        Map<String, Integer> ofMakeCountMap = new HashMap<>();
+        try{
+            PreparedStatement ps = conn.prepareStatement("select make, count(make) as count_make_listed from Car group by make");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                ofMakeCountMap.put(rs.getString("make"), rs.getInt("count_make_listed"));
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return ofMakeCountMap;
     }
 
 }
