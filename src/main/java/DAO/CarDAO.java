@@ -15,7 +15,7 @@ public class CarDAO {
 
     private Connection conn;
 
-    public CarDAO(){
+    public CarDAO(Connection conn){
         this.conn = conn;
     }
 
@@ -40,7 +40,7 @@ public class CarDAO {
     public List<Car> queryCarByMake(String make){
         List<Car> carList = new ArrayList<>();
         try{
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM car WHERE make = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Car WHERE make = ?");
             ps.setString(1, make);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -211,7 +211,7 @@ public class CarDAO {
     public void updateTitleStatus(int vin, boolean status){
         try{
             int value;
-            if(status == true){
+            if(status){
                 value = 1;
             }
             else value = 0;

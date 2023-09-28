@@ -1,17 +1,22 @@
 import DAO.CarDAO;
 import Service.CarService;
 import Model.Car;
+import Util.ConnectionSingleton;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Scanner;
 
 public class Application {
 
     public static void main(String[] args) {
-        CarService carService = new CarService(new CarDAO());
+        Connection conn = ConnectionSingleton.getConnection();
+        CarDAO carDAO = new CarDAO(conn);
+        CarService carService = new CarService(carDAO);
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
             System.out.println("Choose a search criteria:");
             System.out.println("1. Make");
             System.out.println("2. Model");
@@ -28,6 +33,7 @@ public class Application {
 
             int choice = scanner.nextInt();
             scanner.nextLine();
+            System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 
             switch (choice) {
                 case 1 -> {
@@ -82,9 +88,8 @@ public class Application {
                     displayCars(carsBeforeYear);
                 }
                 case 9 -> {
-                    System.out.print("Enter make: ");
-                    String make3 = scanner.nextLine();
-                    List<Car> allCars = carService.getAllCars(make3);
+                    System.out.print("Get all cars: ");
+                    List<Car> allCars = carService.getAllCars();
                     displayCars(allCars);
                 }
                 case 10 -> {
@@ -114,11 +119,13 @@ public class Application {
             System.out.println("Found cars:");
             for (Car car : cars) {
                 displayCarInfo(car);
+
             }
         }
     }
 
     private static void displayCarInfo(Car car) {
+        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
         System.out.println("VIN: " + car.getVin());
         System.out.println("Make: " + car.getMake());
         System.out.println("Model: " + car.getModel());
@@ -126,6 +133,7 @@ public class Application {
         System.out.println("Model Year: " + car.getModelYear());
         System.out.println("Clean Title: " + car.isCleanTitle());
         System.out.println("License Number: " + car.getLicenseNum());
-        System.out.println();
+
+
     }
 }
