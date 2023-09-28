@@ -5,6 +5,7 @@ import Util.ConnectionSingleton;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Application {
@@ -28,7 +29,14 @@ public class Application {
             System.out.println("8. Cars Before Year");
             System.out.println("9. All Cars");
             System.out.println("10. Vin");
-            System.out.println("11. Exit");
+            System.out.println("11. Cars of Most Common Make");
+            System.out.println("12. Average Price per Make");
+            System.out.println("13. Cars Cheaper Than");
+            System.out.println("14. Cars in Price Range");
+            System.out.println("15. Update Title Status");
+            System.out.println("16. Delete Car Record");
+            System.out.println("17. Search Cars by License Number");
+            System.out.println("18. Exit");
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
@@ -37,25 +45,25 @@ public class Application {
 
             switch (choice) {
                 case 1 -> {
-                    System.out.print("Enter make: ");
+                    System.out.print("Enter car make: ");
                     String make = scanner.nextLine();
                     List<Car> carsByMake = carService.getCarsByMake(make);
                     displayCars(carsByMake);
                 }
                 case 2 -> {
-                    System.out.print("Enter model: ");
+                    System.out.print("Enter car model: ");
                     String model = scanner.nextLine();
                     List<Car> carsByModel = carService.getCarsByModel(model);
                     displayCars(carsByModel);
                 }
                 case 3 -> {
-                    System.out.print("Enter color: ");
+                    System.out.print("Enter car color: ");
                     String color = scanner.nextLine();
                     List<Car> carsByColor = carService.getCarsByColor(color);
                     displayCars(carsByColor);
                 }
                 case 4 -> {
-                    System.out.print("Enter model year: ");
+                    System.out.print("Enter car model year: ");
                     int modelYear = scanner.nextInt();
                     List<Car> carsByModelYear = carService.getCarsByModelYear(modelYear);
                     displayCars(carsByModelYear);
@@ -65,18 +73,18 @@ public class Application {
                     displayCars(cleanTitleCars);
                 }
                 case 6 -> {
-                    System.out.print("Enter make: ");
+                    System.out.print("Enter car make: ");
                     String make2 = scanner.nextLine();
-                    System.out.print("Enter model: ");
+                    System.out.print("Enter car model: ");
                     String model2 = scanner.nextLine();
                     List<Car> carsByMakeAndModel = carService.getCarsByMakeAndModel(make2, model2);
                     displayCars(carsByMakeAndModel);
                 }
                 case 7 -> {
-                    System.out.print("Enter model year: ");
+                    System.out.print("Enter car model year: ");
                     int modelYear2 = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
-                    System.out.print("Enter color: ");
+                    System.out.print("Enter car color: ");
                     String color2 = scanner.nextLine();
                     List<Car> carsByModelYearAndColor = carService.getCarsByModelYearAndColor(modelYear2, color2);
                     displayCars(carsByModelYearAndColor);
@@ -88,7 +96,7 @@ public class Application {
                     displayCars(carsBeforeYear);
                 }
                 case 9 -> {
-                    System.out.print("Get all cars: ");
+                    System.out.println("Getting all cars: ");
                     List<Car> allCars = carService.getAllCars();
                     displayCars(allCars);
                 }
@@ -104,10 +112,57 @@ public class Application {
                     }
                 }
                 case 11 -> {
+                    System.out.println("Getting cars of the most common make: ");
+                    List<Car> carsOfMostCommonMake = carService.getCarsOfMostCommonMake();
+                    displayCars(carsOfMostCommonMake);
+                }
+                case 12 -> {
+                    System.out.println("Getting average prices per make: ");
+                    Map<String, Double> avgPriceMap = carService.getAvgPricePerMake();
+                    displayAvgPrices(avgPriceMap);
+                }
+                case 13 -> {
+                    System.out.print("Enter maximum price: ");
+                    double maxPrice = scanner.nextDouble();
+                    List<Car> carsCheaperThan = carService.getCarsCheaperThan(maxPrice);
+                    displayCars(carsCheaperThan);
+                }
+                case 14 -> {
+                    System.out.print("Enter minimum price: ");
+                    double minPrice = scanner.nextDouble();
+                    System.out.print("Enter maximum price: ");
+                    double maxPrice = scanner.nextDouble();
+                    List<Car> carsInRange = carService.getCarsInRange(minPrice, maxPrice);
+                    displayCars(carsInRange);
+                }
+                case 18 -> {
                     System.out.println("Exiting the application.");
                     System.exit(0);
                 }
+                case 15 -> {
+                    System.out.print("Enter VIN to update title status: ");
+                    int vinToUpdate = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter new title status (true or false): ");
+                    boolean newTitleStatus = scanner.nextBoolean();
+                    carService.updateTitleStatus(vinToUpdate, newTitleStatus);
+                    System.out.println("Title status updated successfully for VIN: " + vinToUpdate);
+                }
+                case 16 -> {
+                    System.out.print("Enter VIN to delete car record: ");
+                    int vinToDelete = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    carService.deleteCarRecord(vinToDelete);
+                    System.out.println("Car record deleted successfully for VIN: " + vinToDelete);
+                }
+                case 17 -> {
+                    System.out.print("Enter license number to search for cars: ");
+                    int licenseNumber = scanner.nextInt();
+                    List<Car> carsByLicenseNum = carService.getCarsByLicenseNum(licenseNumber);
+                    displayCars(carsByLicenseNum);
+                }
                 default -> System.out.println("Invalid choice. Please enter a valid option.");
+
             }
         }
     }
@@ -119,7 +174,6 @@ public class Application {
             System.out.println("Found cars:");
             for (Car car : cars) {
                 displayCarInfo(car);
-
             }
         }
     }
@@ -133,7 +187,17 @@ public class Application {
         System.out.println("Model Year: " + car.getModelYear());
         System.out.println("Clean Title: " + car.isCleanTitle());
         System.out.println("License Number: " + car.getLicenseNum());
+        System.out.println("Price:" + car.getPrice());
+    }
 
-
+    private static void displayAvgPrices(Map<String, Double> avgPriceMap) {
+        if (avgPriceMap.isEmpty()) {
+            System.out.println("No average prices found.");
+        } else {
+            System.out.println("Average Prices per Make:");
+            for (Map.Entry<String, Double> entry : avgPriceMap.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
+        }
     }
 }
