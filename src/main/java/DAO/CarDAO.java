@@ -310,7 +310,7 @@ public class CarDAO {
     public Map<String, Integer> queryOfMakeCount(){
         Map<String, Integer> ofMakeCountMap = new HashMap<>();
         try{
-            PreparedStatement ps = conn.prepareStatement("select make, count(make) as count_make_listed from Car group by make");
+            PreparedStatement ps = conn.prepareStatement("SELECT make, COUNT(make) AS count_make_listed FROM Car GROUP BY make");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 ofMakeCountMap.put(rs.getString("make"), rs.getInt("count_make_listed"));
@@ -319,6 +319,70 @@ public class CarDAO {
             e.printStackTrace();
         }
         return ofMakeCountMap;
+    }
+
+    public double avgPricePerMake(String make)
+    {
+        double avgPrice = 0.0;
+        try{
+            PreparedStatement ps = conn.prepareStatement("SELECT AVG(price) FROM Car GROUP BY make HAVING make = ?");
+            ps.setString(1,"make");
+            ResultSet rs = ps.executeQuery();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return avgPrice;
+    }
+
+    public List<String> queryAllMake()
+    {
+        List<String> allMakes = new ArrayList<>();
+        try{
+            PreparedStatement ps = conn.prepareStatement("SELECT make FROM Car");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                String tmp = rs.getString("make");
+                allMakes.add(tmp);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return allMakes;
+    }
+
+    public List<Car> queryCarCheaperThan(double cost) {
+        List<Car> carList = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM car WHERE price < ? ORDER BY price DESC");
+            ps.setDouble(1, cost);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Car dbCar = new Car(rs.getInt("vin"), rs.getString("model"), rs.getString("make"), rs.getInt("model_year"),
+                        rs.getString("color"), rs.getBoolean("clean_title"), rs.getInt("license_num"), rs.getDouble("price"));
+                carList.add(dbCar);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return carList;
+    }
+
+    public List<Car> queryCarInRange(double min, double max) {
+        List<Car> carList = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM car WHERE price > ? AND price < ? ORDER BY price DESC");
+            ps.setDouble(1, min);
+            ps.setDouble(2, max);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Car dbCar = new Car(rs.getInt("vin"), rs.getString("model"), rs.getString("make"), rs.getInt("model_year"),
+                        rs.getString("color"), rs.getBoolean("clean_title"), rs.getInt("license_num"), rs.getDouble("price"));
+                carList.add(dbCar);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return carList;
     }
 
 }

@@ -4,6 +4,7 @@ import DAO.CarDAO;
 import Model.Car;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -135,5 +136,26 @@ public class CarService {
         return carDAO.queryCarByMake(currentMaxSoldMake);
     }
 
+    /**
+     * Returns a Map of make to the avg price of all cars of that make.
+     * @return List<String, Double>
+     */
+    public Map<String, Double> getAvgPricePerMake() {
+        Map<String, Double> avgPriceMap = new HashMap<>();
+        List<String> listOfMakes = carDAO.queryAllMake();
+        for(String make: listOfMakes){
+            double avgPrice = carDAO.avgPricePerMake(make);
+            avgPriceMap.put(make, avgPrice);
+        }
+        return avgPriceMap;
+    }
+
+    public List<Car> getCarsCheaperThan(double amount){
+        return carDAO.queryCarCheaperThan(amount);
+    }
+
+    public List<Car> getCarsInRange(double minAmount, double maxAmount){
+        return carDAO.queryCarInRange(minAmount, maxAmount);
+    }
 
 }

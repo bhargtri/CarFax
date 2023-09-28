@@ -24,7 +24,7 @@ INSERT INTO Owner (license_num, name, birth_year, state) VALUES (469756, 'Da Vin
 INSERT INTO Car (vin, model, make, model_year, color, clean_title, license_num, price) VALUES (1234, 'NSX', 'Acura', 1995, 'red', 1,123456, 250000);
 INSERT INTO Car (vin, model, make, model_year, color, clean_title, license_num, price) VALUES (2671, '911 GT3', 'Porsche', 2018, 'silver', 1,469756, 315000);
 INSERT INTO Car (vin, model, make, model_year, color, clean_title, license_num, price) VALUES (9270, 'M2', 'BMW', 1989, 'grey', 0,982546, 80000);
-INSERT INTO Car (vin, model, make, model_year, color, clean_title, license_num, price) VALUES (8391, 'F1', 'McLaren', 1995, 'black', 0,123456, 1500000);
+INSERT INTO Car (vin, model, make, model_year, color, clean_title, license_num, price) VALUES (8391, 'F1', 'McLaren', 1994, 'black', 0,123456, 1500000);
 INSERT INTO Car (vin, model, make, model_year, color, clean_title, license_num, price) VALUES (8349, 'Barracuda', 'Plymouth', 1965, 'blue', 1,857346, 60000);
 INSERT INTO Car (vin, model, make, model_year, color, clean_title, license_num, price) VALUES (9081, 'F50', 'Ferrari', 1995, 'red', 1,469756, 900000);
 INSERT INTO Car (vin, model, make, model_year, color, clean_title, license_num, price) VALUES (4689, '458 Italia', 'Ferrari', 2015, 'yellow', 0,469756, 125000);
