@@ -1,6 +1,8 @@
 package Service;
 
 import DAO.CarDAO;
+import Exceptions.CarAlreadyExistsException;
+import Exceptions.CarDoesNotExistsException;
 import Model.Car;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,17 +22,27 @@ public class CarService {
      * @param car
      * @return car - The entity entered.
      */
-    public Car insertCar(@NotNull Car car){
-        int vin = 0;
-        do{
-            vin = (int) (Math.random() * Integer.MAX_VALUE);
-        } while(carDAO.queryCarByVin(vin) != null);
+//    public Car insertCar(@NotNull Car car){
+//        int vin = 0;
+//        do{
+//            vin = (int) (Math.random() * Integer.MAX_VALUE);
+//        } while(carDAO.queryCarByVin(vin) != null);
+//
+//        car.setVin(vin);
+//
+//        carDAO.insertCarRecord(car);
+//
+//        return car;
+//    }
 
-        car.setVin(vin);
+    public void insertCar(@NotNull Car car) throws CarAlreadyExistsException {
+        Car tempCar = carDAO.queryCarByVin(car.getVin());
 
-        carDAO.insertCarRecord(car);
-
-        return car;
+        if(tempCar == null){
+            carDAO.insertCarRecord(car);
+        }else{
+            throw new CarAlreadyExistsException();
+        }
     }
 
     /**
@@ -109,12 +121,20 @@ public class CarService {
         return carDAO.queryCarByVin(vin);
     }
 
-    public void updateTitleStatus(int vin, boolean status){
-        carDAO.updateTitleStatus(vin, status);
+    public void updateTitleStatus(int vin, boolean status) throws CarDoesNotExistsException {
+        if(carDAO.queryCarByVin(vin)!= null)
+            carDAO.updateTitleStatus(vin, status);
+        else {
+            throw new CarDoesNotExistsException();
+        }
     }
 
-    public void deleteCarRecord(int vin){
-        carDAO.deleteCarRecord(vin);
+    public void deleteCarRecord(int vin) throws CarDoesNotExistsException{
+        if(carDAO.queryCarByVin(vin) != null)
+            carDAO.deleteCarRecord(vin);
+        else {
+            throw new CarDoesNotExistsException();
+        }
     }
 
     public List<Car> getCarsByLicenseNum(int license){

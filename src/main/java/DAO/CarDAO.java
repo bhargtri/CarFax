@@ -31,6 +31,7 @@ public class CarDAO {
             ps.setBoolean(6, car.isCleanTitle());
             ps.setInt(7, car.getLicenseNum());
             ps.setDouble(8, car.getPrice());
+            ps.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -325,9 +326,12 @@ public class CarDAO {
     {
         double avgPrice = 0.0;
         try{
-            PreparedStatement ps = conn.prepareStatement("SELECT AVG(price) FROM Car GROUP BY make HAVING make = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT AVG(price) As avg FROM Car WHERE make = ? GROUP BY make");
             ps.setString(1,"make");
             ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                avgPrice = rs.getDouble("avg");
+            }
         }catch(SQLException e){
             e.printStackTrace();
         }
