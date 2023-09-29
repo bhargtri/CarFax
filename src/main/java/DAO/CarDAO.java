@@ -52,7 +52,7 @@ public class CarDAO {
                 String color = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                double price = rs.getInt("price");
+                double price = rs.getDouble("price");
                 Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
@@ -76,7 +76,7 @@ public class CarDAO {
                 String color = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                double price = rs.getInt("price");
+                double price = rs.getDouble("price");
                 Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
@@ -100,7 +100,7 @@ public class CarDAO {
                 String carColor = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                double price = rs.getInt("price");
+                double price = rs.getDouble("price");
                 Car dbCar = new Car(vin, dbMake, dbModel, modelYear, carColor, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
@@ -124,7 +124,7 @@ public class CarDAO {
                 String color = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                double price = rs.getInt("price");
+                double price = rs.getDouble("price");
                 Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
@@ -174,7 +174,7 @@ public class CarDAO {
                 String color = rs.getString("color");
                 boolean cleanTitle = rs.getBoolean("clean_title");
                 int licenseNum = rs.getInt("license_num");
-                double price = rs.getInt("price");
+                double price = rs.getDouble("price");
                 Car dbCar = new Car(vin, dbMake, dbModel, modelYear, color, cleanTitle, licenseNum, price);
                 carList.add(dbCar);
             }
