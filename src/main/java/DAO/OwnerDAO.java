@@ -19,11 +19,12 @@ public class OwnerDAO {
 
     public void insertOwnerRecord(Owner owner){
         try{
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Owner (license_num, name, birthYear, state) VALUES (?,?,?,?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Owner (license_num, name, birth_year, state) VALUES (?,?,?,?)");
             ps.setInt(1, owner.getLicenseNum());
             ps.setString(2, owner.getName());
             ps.setInt(3, owner.getBirthYear());
             ps.setString(4, owner.getState());
+            ps.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();

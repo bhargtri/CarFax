@@ -1,6 +1,7 @@
 import DAO.CarDAO;
 import Model.Car;
 import Util.ConnectionSingleton;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -147,7 +148,7 @@ public class CarDAOTest {
         Assert.assertEquals(2, carList.size());
     }
 
-
+    @After
     public void tearDown(){
         ConnectionSingleton.resetTestDatabase();
     }

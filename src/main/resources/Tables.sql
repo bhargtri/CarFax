@@ -17,6 +17,7 @@ INSERT INTO Owner (license_num, name, birth_year, state) VALUES (123456, 'Van Go
 INSERT INTO Owner (license_num, name, birth_year, state) VALUES (982546, 'Salvador Dali', 2001, 'California');
 INSERT INTO Owner (license_num, name, birth_year, state) VALUES (857346, 'Pablo Picasso', 1890, 'New_Jersey');
 INSERT INTO Owner (license_num, name, birth_year, state) VALUES (469756, 'Da Vinci', 1890, 'New_York');
+INSERT INTO Owner (license_num, name, birth_year, state) VALUES (124365, 'Vinci Da', 1988, 'Vermont');
 
 
 --=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
