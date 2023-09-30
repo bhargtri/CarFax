@@ -2,7 +2,10 @@ package Controller;
 
 import Exceptions.CarAlreadyExistsException;
 import Exceptions.CarDoesNotExistsException;
+import Exceptions.OwnerAlreadyExistsException;
+import Exceptions.OwnerDoesNotExistException;
 import Model.Car;
+import Model.Owner;
 import Service.CarService;
 import Service.OwnerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,31 +31,45 @@ public class CarFaxController {
     {
         Javalin app = Javalin.create();
 
+        //Car URI's
+
         app.get("/car", this::getAllCarsHandler);
         app.get("/car/byMake/{make}", this::getCarByMakeHandler);
         app.get("/car/byModel/{model}", this::getCarByModelHandler);
         app.get("/car/byColor/{color}", this::getCarByColorHandler);
         app.get("/car/byModelYear/{modelYear}", this::getCarByModelYearHandler);
-        app.get("/car/cleanTitle", this::getCleanCarHandler);
+        app.get("/car/onlyCleanTitle", this::getCleanCarHandler);
         app.get("/car/byMakeAndModel", this::getCarByMakeAndModelHandler);
         app.get("/car/byModelYearAndColor", this::getCarByModelYearAndColorHandler);
         app.get("/car/beforeModelYear/{modelYear}", this::getCarBeforeModelYearHandler);
         app.get("/car/byVIN/{vin}", this::getCarByVINHandler);
-
         app.get("/car/byLicenseNumber/{licenseNumber}", this::getCarByLicenseNumberHandler);
         app.get("/car/avgPriceOfMake", this::getCarByAvgPricePerMakeHandler);
         app.get("/car/cheaperThan/{minPrice}", this::getCarCheaperThanHandler);
         app.get("/car/inRange", this::getCarInRangeOfHandler);
+        app.get("/car/mostCommonMake", this::getCarOfMostCommonMake);
 
         app.post("/car", this::postCarHandler);
         app.post("/car/status", this::postCarCleanStatusHandler);
 
         app.delete("/car/{vin}", this::deleteCarHandler);
 
+        //Owner URI's
+        app.get("/owner", this::getAllOwnersHandler);
+        app.get("/owner/byState/{state}", this::getOwnerByStateHandler);
+        app.get("/owner/olderThanAge/{age}", this::getOwnersOlderThanAgeHandler);
+
+
+        app.post("/owner", this::postOwnerHandler);
+
+        app.delete("/owner/{licenseNum}", this::deleteOwnerHandler);
+
 
         return app;
     }
-
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+//Car API Handlers
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     private void getAllCarsHandler(Context context){
         context.json(carService.getAllCars());
     }
@@ -122,7 +139,7 @@ public class CarFaxController {
         }catch(CarAlreadyExistsException e){
 //            400 is the 'user error' response
             context.status(400);
-            context.result("Car with vin already exists");
+            context.result("Car with VIN already exists");
         }
     }
 
@@ -136,6 +153,7 @@ public class CarFaxController {
         }catch(CarDoesNotExistsException e){
 //            400 is the 'user error' response
             context.status(400);
+            context.result("Car with this VIN does not exists");
         }
     }
 
@@ -185,4 +203,57 @@ public class CarFaxController {
 //            201 is the 'resource created' response
 
     }
+
+    private void getCarOfMostCommonMake(Context context){
+        List<Car> carList = carService.getCarsOfMostCommonMake();
+        context.status(201);
+        context.json(carList);
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+//Owner API Handlers
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    private void postOwnerHandler(Context context) throws JsonProcessingException {
+        ObjectMapper om = new ObjectMapper();
+        Owner owner = om.readValue(context.body(), Owner.class);
+        try {
+            ownerService.insertOwner(owner);
+//                201 is the 'resource created' response
+            context.status(201);
+            context.result("Owner added successfully.");
+        } catch (OwnerAlreadyExistsException e) {
+//                400 is the 'user error' response
+            context.status(400);
+            context.result("Owner with this license number already exists, license number should be unique.");
+        }
+    }
+    private void deleteOwnerHandler(Context context) throws JsonProcessingException {
+        int licenseNum = Integer.parseInt(context.pathParam("licenseNum"));
+        try{
+            ownerService.deleteOwnerRecord(licenseNum);
+//            201 is the 'resource created' response
+            context.status(201);
+            context.result("Object deleted successfully.");
+        }catch(OwnerDoesNotExistException e){
+//            400 is the 'user error' response
+            context.status(400);
+            context.result("Owner with this license number does not exist.");
+        }
+    }
+
+    private void getAllOwnersHandler(Context context){
+        context.json(ownerService.getAllOwners());
+    }
+
+    private void getOwnerByStateHandler(@NotNull Context context){
+        String state = context.pathParam("state");
+        List<Owner> ownerList = ownerService.getOwnersByState(state);
+        context.json(ownerList);
+    }
+
+    private void getOwnersOlderThanAgeHandler(@NotNull Context context) {
+        int age = Integer.parseInt(context.pathParam("age"));
+        List<Owner> ownerList = ownerService.getOwnersOlderThanAge(age);
+        context.json(ownerList);
+    }
+
 }

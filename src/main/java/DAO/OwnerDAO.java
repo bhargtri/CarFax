@@ -41,30 +41,29 @@ public class OwnerDAO {
         }
     }
 
-    public List<Owner> queryOwnerByLicenseNum(int license){
-        List<Owner> ownerList = new ArrayList<>();
+    public Owner queryOwnerByLicenseNum(int license){
+        Owner owner = null;
         try{
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM Owner WHERE license_num = ?");
             ps.setInt(1, license);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            if (rs.next()){
                 int licenseNum = rs.getInt("license_num");
                 String dbName = rs.getString("name");
                 int birthYear = rs.getInt("birth_year");
                 String state = rs.getString("state");
-                Owner dbOwner = new Owner(licenseNum, dbName, birthYear, state);
-                ownerList.add(dbOwner);
+                owner = new Owner(licenseNum, dbName, birthYear, state);
             }
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return ownerList;
+        return owner;
     }
 
     public List<Owner> queryAllOwners() {
         List<Owner> ownerList = new ArrayList<>();
         try {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Owner ORDER BY birth_year DESC");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM owner ORDER BY birth_year DESC");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Owner dbOwner = new Owner(rs.getInt("license_num"), rs.getString("name"), rs.getInt("birth_year"),
@@ -84,7 +83,7 @@ public class OwnerDAO {
             ps.setString(1, ownerState);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Owner dbOwner = new Owner(rs.getInt("licenseNumber"), rs.getString("name"), rs.getInt("birth_year"), rs.getString("state"));
+                Owner dbOwner = new Owner(rs.getInt("license_num"), rs.getString("name"), rs.getInt("birth_year"), rs.getString("state"));
                 ownerList.add(dbOwner);
             }
         }catch(SQLException e){
@@ -96,11 +95,11 @@ public class OwnerDAO {
     public List<Owner> queryOwnersOlderThanAge(int age){
         List<Owner> ownerList = new ArrayList<>();
         try{
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM owner WHERE YEAR(2023-birth_year) > ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM owner WHERE 2023-birth_year > ?");
             ps.setInt(1, age);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Owner dbOwner = new Owner(rs.getInt("licenseNumber"), rs.getString("name"), rs.getInt("birth_year"), rs.getString("state"));
+                Owner dbOwner = new Owner(rs.getInt("license_num"), rs.getString("name"), rs.getInt("birth_year"), rs.getString("state"));
                 ownerList.add(dbOwner);
             }
         }catch(SQLException e){

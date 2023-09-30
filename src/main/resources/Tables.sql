@@ -15,8 +15,8 @@ CREATE TABLE Car (vin int primary key, model varchar(255), make varchar(255), mo
 --Insert into table "Owner"
 INSERT INTO Owner (license_num, name, birth_year, state) VALUES (123456, 'Van Gogh', 1980, 'Florida');
 INSERT INTO Owner (license_num, name, birth_year, state) VALUES (982546, 'Salvador Dali', 2001, 'California');
-INSERT INTO Owner (license_num, name, birth_year, state) VALUES (857346, 'Pablo Picasso', 1890, 'New Jersey');
-INSERT INTO Owner (license_num, name, birth_year, state) VALUES (469756, 'Da Vinci', 1890, 'New york');
+INSERT INTO Owner (license_num, name, birth_year, state) VALUES (857346, 'Pablo Picasso', 1890, 'New_Jersey');
+INSERT INTO Owner (license_num, name, birth_year, state) VALUES (469756, 'Da Vinci', 1890, 'New_York');
 
 
 --=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

@@ -1,6 +1,9 @@
 package Service;
 
 import DAO.OwnerDAO;
+import Exceptions.CarAlreadyExistsException;
+import Exceptions.OwnerAlreadyExistsException;
+import Exceptions.OwnerDoesNotExistException;
 import Model.Car;
 import Model.Owner;
 
@@ -14,21 +17,31 @@ public class OwnerService {
         this.ownerDAO = ownerDao;
     }
 
-    public Owner insertOwner(Owner owner){
-        int license = 0;
-        do{
-            license = (int) (Math.random() * Integer.MAX_VALUE);
-        } while(ownerDAO.queryOwnerByLicenseNum(license) != null);
+    public void insertOwner(Owner owner) throws OwnerAlreadyExistsException {
+//        int license = 0;
+//        do{
+//            license = (int) (Math.random() * Integer.MAX_VALUE);
+//        } while(ownerDAO.queryOwnerByLicenseNum(license) != null);
+//
+//        owner.setLicenseNum(license);
+//
+//        ownerDAO.insertOwnerRecord(owner);
+//
+//        return owner;
+        Owner tempOwner = ownerDAO.queryOwnerByLicenseNum(owner.getLicenseNum());
 
-        owner.setLicenseNum(license);
-
-        ownerDAO.insertOwnerRecord(owner);
-
-        return owner;
+        if(tempOwner == null){
+            ownerDAO.insertOwnerRecord(owner);
+        }else{
+            throw new OwnerAlreadyExistsException();
+        }
     }
 
-    public void deleteOwnerRecord(int licenseNum){
-        ownerDAO.deleteOwnerRecord(licenseNum);
+    public void deleteOwnerRecord(int licenseNum) throws OwnerDoesNotExistException {
+        if(ownerDAO.queryOwnerByLicenseNum(licenseNum) != null)
+            ownerDAO.deleteOwnerRecord(licenseNum);
+        else
+            throw new OwnerDoesNotExistException();
     }
 
     public List<Owner> getAllOwners(){

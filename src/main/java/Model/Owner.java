@@ -12,7 +12,11 @@ public class Owner {
     private int birthYear;
     private String state;
 
-    public Owner(int ssn, String name, int birthYear, String state) {
+    public Owner(int licenseNum, String name, int birthYear, String state) {
+        this.licenseNum = licenseNum;
+        this.name = name;
+        this.birthYear = birthYear;
+        this.state = state;
     }
 
     @Override

@@ -217,8 +217,8 @@ public class CarDAO {
             }
             else value = 0;
             PreparedStatement ps = conn.prepareStatement("UPDATE car SET clean_title = ? WHERE vin = ?");
-            ps.setInt(1, vin);
-            ps.setInt(2, value);
+            ps.setInt(1, value);
+            ps.setInt(2, vin);
             ps.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
@@ -326,11 +326,11 @@ public class CarDAO {
     {
         double avgPrice = 0.0;
         try{
-            PreparedStatement ps = conn.prepareStatement("SELECT AVG(price) As avg FROM Car WHERE make = ? GROUP BY make");
-            ps.setString(1,"make");
+            PreparedStatement ps = conn.prepareStatement("SELECT AVG(price) As avg_price FROM Car WHERE make = ? GROUP BY make");
+            ps.setString(1,make);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                avgPrice = rs.getDouble("avg");
+            while(rs.next()){
+                avgPrice = rs.getDouble("avg_price");
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -342,7 +342,7 @@ public class CarDAO {
     {
         List<String> allMakes = new ArrayList<>();
         try{
-            PreparedStatement ps = conn.prepareStatement("SELECT make FROM Car");
+            PreparedStatement ps = conn.prepareStatement("SELECT DISTINCT make FROM Car");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 String tmp = rs.getString("make");
