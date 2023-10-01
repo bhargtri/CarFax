@@ -2,15 +2,12 @@ import Controller.CarFaxController;
 import DAO.CarDAO;
 import DAO.OwnerDAO;
 import Service.CarService;
-import Model.Car;
 import Service.OwnerService;
 import Util.ConnectionSingleton;
 import io.javalin.Javalin;
 
 import java.sql.Connection;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+
 
 public class Application {
 
