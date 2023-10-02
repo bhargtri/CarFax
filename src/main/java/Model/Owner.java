@@ -12,6 +12,9 @@ public class Owner {
     private int birthYear;
     private String state;
 
+    public Owner() {
+    }
+
     public Owner(int licenseNum, String name, int birthYear, String state) {
         this.licenseNum = licenseNum;
         this.name = name;
